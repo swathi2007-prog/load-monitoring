@@ -1,1 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Ultra-Professional IoT Load Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+/* =================== BODY & BACKGROUND =================== */
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+    color: #fcf3f3;
+    background: #0a0a0a;
+    position: relative;
+}
+
+/* Full-width circuit board background with dark filter */
+body::before {
+    content: "";
+    position: fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    background: url('https://i.imgur.com/2c9TtLy.jpg') no-repeat center center;
+    background-size: cover;
+    z-index: -3;
+    filter: brightness(0.25) contrast(1.3);
+}
+
+/* =================== MOVING NEON CIRCUIT LINES =================== */
+.canvas-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+}
+
+canvas {
+    display: block;
+}
+
+/* =================== FLOATING CIRCUIT CIRCLES =================== */
+.circuit {
+    position: absolute;
+    border: 2px solid rgba(240, 0, 224, 0.2);
+    border-radius: 50%;
+    animation: float 20s linear infinite;
+    opacity: 0.5;
+    box-shadow: 0 0 15px rgba(250, 26, 131, 0.4);
+}
+
+.circuit:nth-child(1) {width: 250px; height: 250px; top: 5%; left: 10%; animation-duration: 25s;}
+.circuit:nth-child(2) {width: 180px; height: 180px; top: 40%; left: 70%; animation-duration: 30s;}
+.circuit:nth-child(3) {width: 300px; height: 300px; top: 65%; left: 25%; animation-duration: 35s;}
+
+@keyframes float {
+    0% {transform: translateY(0) rotate(0deg);}
+    50% {transform: translateY(-50px) rotate(180deg);}
+    100% {transform: translateY(0) rotate(360deg);}
+}
+
+/* =================== HEADER =================== */
+header {
+    text-align: center;
+    padding: 50px 10px;
+    position: relative;
+    z-index: 1;
+}
+
+header h1 {
+    font-size: 3rem;
+    color: #35ffee;
+    text-shadow: 0 0 20px #73e0ef, 0 0 40px hsl(180, 91%, 66%);
+}
+
+header p {
+    font-size: 1.2rem;
+    color: #ffffffc4;
+}
+
+/* =================== CONTAINER =================== */
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+/* =================== CARD STYLING =================== */
+.card {
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(15px);
+    color: rgb(255, 255, 255);
+    border-radius: 20px;
+    padding: 30px;
+    margin-bottom: 25px;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.7);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-12px);
+    box-shadow: 0 25px 80px rgba(5, 41, 246, 0.8);
+}
+
+.card h2 {
+    margin-bottom: 20px;
+    font-size: 2rem;
+    color: #e6ff28;
+    text-shadow: 0 0 10px #827902;
+}
+
+/* =================== BUTTONS =================== */
+.buttons button {
+    padding: 15px 35px;
+    font-size: 16px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    margin-right: 15px;
+    transition: 0.3s;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+}
+
+.on { background: #ff1d1d; color: white; box-shadow: 0 0 15px #3c13f4; }
+.off { background: #070856; color: white; box-shadow: 0 0 15px #f136f4; }
+
+.buttons button:hover {
+    transform: scale(1.15);
+}
+
+/* =================== STATUS =================== */
+.status {
+    font-size: 20px;
+    margin-top: 15px;
+}
+
+/* =================== SENSOR GRID =================== */
+.sensor-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+    margin-top: 15px;
+}
+
+.sensor {
+    background: linear-gradient(135deg, #f852c9, #e2f933);
+    color: white;
+    border-radius: 20px;
+    padding: 25px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sensor:hover {
+    transform: translateY(-10px) scale(1.07);
+    box-shadow: 0 20px 50px rgba(0, 55, 236, 0.7);
+}
+
+.sensor i {
+    font-size: 55px;
+    margin-bottom: 15px;
+    text-shadow: 0 0 15px #70ff5d;
+}
+
+/* =================== EXTRA INFO =================== */
+.extra-info {
+    background: rgba(0,0,0,0.4);
+    border-radius: 15px;
+    padding: 20px;
+    margin-top: 15px;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+/* =================== FOOTER =================== */
+footer {
+    text-align: center;
+    padding: 20px;
+    background: rgba(0,0,0,0.3);
+    backdrop-filter: blur(5px);
+    font-size: 14px;
+}
+
+/* =================== RESPONSIVE =================== */
+@media screen and (max-width: 768px) {
+    header h1 { font-size: 2.2rem; }
+    .card h2 { font-size: 1.5rem; }
+    .buttons button { padding: 12px 25px; font-size: 14px; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Moving neon circuit lines -->
+<div class="canvas-container">
+    <canvas id="circuitCanvas"></canvas>
+</div>
+
+<!-- Floating circuit circles -->
+<div class="circuit"></div>
+<div class="circuit"></div>
+<div class="circuit"></div>
+
+<header>
+    <h1>🔌 IoT Load Monitoring Dashboard</h1>
+    <p>Smart Plug Based Energy Monitoring & Control</p>
+</header>
+
+<div class="container">
+
+    <!-- Appliance Control -->
+    <div class="card">
+        <h2><i class="fa-solid fa-toggle-on"></i> Appliance Control</h2>
+        <div class="buttons">
+            <button class="on" onclick="turnOn()">Turn ON</button>
+            <button class="off" onclick="turnOff()">Turn OFF</button>
+        </div>
+        <p class="status">Status: <strong id="status">OFF</strong></p>
+
+        <div class="extra-info">
+            <strong>Important Info:</strong>
+            <ul>
+                <li>Do not exceed rated voltage or current.</li>
+                <li>System cuts power automatically during overload.</li>
+                <li>Monitor your appliances to save energy.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Monitoring -->
+    <div class="card">
+        <h2><i class="fa-solid fa-chart-line"></i> Power Monitoring</h2>
+        <div class="sensor-grid">
+            <div class="sensor">
+                <i class="fa-solid fa-bolt"></i>
+                <h3>Voltage</h3>
+                <p><span id="voltage">230</span> V</p>
+            </div>
+
+            <div class="sensor">
+                <i class="fa-solid fa-plug-circle-bolt"></i>
+                <h3>Current</h3>
+                <p><span id="current">0.5</span> A</p>
+            </div>
+
+            <div class="sensor">
+                <i class="fa-solid fa-lightbulb"></i>
+                <h3>Power</h3>
+                <p><span id="power">115</span> W</p>
+            </div>
+        </div>
+
+        <div class="extra-info">
+            <strong>Monitoring Tips:</strong>
+            <ul>
+                <li>Voltage: 180-250V ideal range.</li>
+                <li>Current: Keep below appliance rating.</li>
+                <li>Power: Calculated as V × I in real-time.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- How It Works -->
+    <div class="card">
+        <h2><i class="fa-solid fa-lightbulb"></i> How It Works</h2>
+        <p>⚡ Voltage and current sensors measure real-time electrical load.</p>
+        <p>📡 ESP32 sends data via Wi-Fi to this dashboard.</p>
+        <p>🌐 Users can monitor usage and control appliances remotely.</p>
+        <p>💡 Automatic power cut for overload or unsafe conditions.</p>
+        <p>🔧 Helps save energy and prevent appliance damage.</p>
+    </div>
+
+</div>
+
+<footer>
+    <p>Mini Project | IoT Load Monitoring System | 🔌 Made with ❤️</p>
+</footer>
+
+<script>
+// =================== Live Sensor Simulation ===================
+function turnOn() { document.getElementById("status").innerText = "ON"; }
+function turnOff() { document.getElementById("status").innerText = "OFF"; }
+
+setInterval(() => {
+    let voltage = 220 + Math.floor(Math.random() * 25);
+    let current = (Math.random() * 2).toFixed(2);
+    let power = (voltage * current).toFixed(1);
+
+    document.getElementById("voltage").innerText = voltage;
+    document.getElementById("current").innerText = current;
+    document.getElementById("power").innerText = power;
+}, 2000);
+
+// =================== Neon Circuit Lines Canvas ===================
+const canvas = document.getElementById("circuitCanvas");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let lines = [];
+for (let i=0;i<50;i++) {
+    lines.push({
+        x: Math.random()*canvas.width,
+        y: Math.random()*canvas.height,
+        length: Math.random()*100+50,
+        speed: Math.random()*0.5+0.2,
+        color: `rgba(0,255,255,${Math.random()*0.4+0.3})`
+    });
+}
+
+function drawLines() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    lines.forEach(line => {
+        ctx.beginPath();
+        ctx.moveTo(line.x, line.y);
+        ctx.lineTo(line.x + line.length, line.y);
+        ctx.strokeStyle = line.color;
+        ctx.lineWidth = 1.5;
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = '#00ffff';
+        ctx.stroke();
+
+        line.x += line.speed;
+        if(line.x > canvas.width) line.x = -line.length;
+    });
+    requestAnimationFrame(drawLines);
+}
+drawLines();
+
+// Update canvas on resize
+window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
+</script>
+
+</body>
+</html>
 
