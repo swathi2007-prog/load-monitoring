@@ -304,6 +304,19 @@ setInterval(() => {
     document.getElementById("voltage").innerText = voltage;
     document.getElementById("current").innerText = current;
     document.getElementById("power").innerText = power;
+// =================== Fault Conditions=============================
+    if  (voltage > 250) {
+        alert(" FAULT ALERT: over voltage detected!");
+        turnoff();
+
+    }
+    if  (current >3) {
+        aleart(" FAULT ALERT: over current detected!");
+    }
+    if (power > 700) {
+        alert(" FAULT AKERT: power overload!");
+        turnoff();
+    
 }, 2000);
 
 // =================== Neon Circuit Lines Canvas ===================
